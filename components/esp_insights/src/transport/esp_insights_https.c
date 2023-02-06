@@ -130,16 +130,20 @@ static int esp_insights_https_data_send(void *data, size_t len)
     err = esp_http_client_perform(client);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "esp_http_client_perform failed err:0x%x", err);
+        esp_event_post(INSIGHTS_EVENT, INSIGHTS_EVENT_TRANSPORT_SEND_FAILED, &data, sizeof(data), portMAX_DELAY);
     } else {
         int status = esp_http_client_get_status_code(client);
         if (status == HttpStatus_Ok) {
             msg_id = 0;
+            esp_event_post(INSIGHTS_EVENT, INSIGHTS_EVENT_TRANSPORT_SEND_SUCCESS, &data, sizeof(data), portMAX_DELAY);
         } else {
             ESP_LOGE(TAG, "API response status = %d", status);
+            esp_event_post(INSIGHTS_EVENT, INSIGHTS_EVENT_TRANSPORT_SEND_FAILED, &data, sizeof(data), portMAX_DELAY);
         }
     }
 cleanup:
     esp_http_client_cleanup(client);
+    esp_event_post(INSIGHTS_EVENT, INSIGHTS_EVENT_TRANSPORT_SEND_FAILED, &data, sizeof(data), portMAX_DELAY);
     return msg_id;
 }
 
