@@ -18,6 +18,7 @@
 #include <esp_http_client.h>
 #include <esp_insights.h>
 #include <esp_insights_internal.h>
+#include <esp_event.h>
 
 typedef struct {
     const char *auth_key;
