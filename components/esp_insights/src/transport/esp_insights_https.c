@@ -139,7 +139,7 @@ static int esp_insights_https_data_send(void *data, size_t len)
             esp_event_post(INSIGHTS_EVENT, INSIGHTS_EVENT_TRANSPORT_SEND_SUCCESS, &data, sizeof(data), portMAX_DELAY);
         } else {
             ESP_LOGE(TAG, "API response status = %d", status);
-            esp_event_post(INSIGHTS_EVENT, INSIGHTS_EVENT_TRANSPORT_SEND_FAILED, &data, sizeof(data), portMAX_DELAY);
+            // esp_event_post(INSIGHTS_EVENT, INSIGHTS_EVENT_TRANSPORT_SEND_FAILED, &data, sizeof(data), portMAX_DELAY);
         }
     }
 cleanup:
